@@ -1,0 +1,35 @@
+flowchart LR
+PUB((Internet))
+
+subgraph VPS["Debian VPS -- Cloud Edge"]
+    CDY[Caddy Ingress]
+    SRV[localhost Backend Apps]
+    TS1[Tailscale Node]
+end
+
+subgraph MESH["Tailscale Zero-Trust Mesh"]
+    ACL[Tailnet ACL Enforcer]
+end
+
+subgraph VLAN40["VLAN 40 -- Agent Isolation"]
+    subgraph LAP1["Automation Laptop 1"]
+        WKR1[Linux Worker]
+    end
+    subgraph LAP2["Automation Laptop 2"]
+        WKR2[Linux Worker]
+    end
+end
+
+HERMES[Hermes AI Gateway]
+
+PUB ==>|HTTPS| CDY --> SRV
+TS1 -.->|WireGuard Tunnel| ACL
+ACL -.->|Encrypted Overlay| HERMES
+HERMES ==>|Task Delegation| WKR1 & WKR2
+
+classDef gateway fill:#1A365D,color:#fff,stroke:#333;
+classDef compute fill:#4A5568,color:#fff,stroke:#333;
+classDef staged fill:#f4f4f4,color:#666,stroke:#999,stroke-dasharray:5 5;
+class CDY,HERMES gateway;
+class SRV,WKR1,WKR2,TS1 compute;
+class VLAN40 staged;
