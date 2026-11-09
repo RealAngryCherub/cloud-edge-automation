@@ -41,10 +41,8 @@ HERMES ==>|Task Delegation| WKR1 & WKR2
 
 classDef gateway fill:#1A365D,color:#fff,stroke:#333;
 classDef compute fill:#4A5568,color:#fff,stroke:#333;
-classDef staged fill:#f4f4f4,color:#666,stroke:#999,stroke-dasharray:5 5;
 class CDY,HERMES gateway;
-class SRV,WKR1,WKR2,TS1 compute;
-class VLAN40 staged;
+class SRV,TS1,WKR1,WKR2,VLAN40 compute;
 ```
 
 > [!IMPORTANT]
